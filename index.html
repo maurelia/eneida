@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aeneis</title>
+<meta name="description" content="La Eneida de Virgilio en latín, con recitación en audio.">
+<meta name="theme-color" content="#2a1a10">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Aeneis">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ PORTADA ============ -->
+<section id="cover" class="screen active" aria-label="Portada">
+  <div class="leaf cover-leaf">
+    <div class="frame">
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
+      <div class="frame-inner">
+        <p class="incipit">✠ INCIPIT ✠</p>
+        <p class="author">P · VERGILII · MARONIS</p>
+        <h1 class="title" aria-label="Aeneis">
+          <span>A</span><span>E</span><span>N</span><span>E</span><span>I</span><span>S</span>
+        </h1>
+        <div class="medallion" id="medallion" aria-hidden="true"></div>
+        <p class="libri">LIBRI · DVODECIM</p>
+        <p class="proem">Arma virumque cano, Troiae qui primus ab oris<br>Italiam, fato profugus, Laviniaque venit litora…</p>
+        <button class="open-btn" id="openBook" type="button">
+          <span class="la">Aperi librum</span>
+          <span class="es">Abrir el libro</span>
+        </button>
+        <p class="resume" id="coverResume" hidden></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ÍNDICE ============ -->
+<section id="index" class="screen" aria-label="Índice de libros">
+  <div class="leaf page-leaf">
+    <header class="page-head">
+      <button class="icon-btn" id="toCover" type="button" aria-label="Volver a la portada">
+        <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <h2 class="rubric">Index Librorum</h2>
+      <span class="spacer"></span>
+    </header>
+    <p class="sub">Elige un libro para leer y escuchar la recitación en latín.</p>
+    <ol class="books" id="bookList"></ol>
+    <footer class="colophon">
+      <p>Texto latino: <a href="https://www.thelatinlibrary.com/verg.html" target="_blank" rel="noopener">The Latin Library</a>.
+      Recitación: <a href="https://librivox.org/aeneidis-libri-xii-by-publius-vergilius-maro/" target="_blank" rel="noopener">LibriVox, <i>Aeneidis Libri XII</i></a>, leída por Malone (dominio público).</p>
+      <p id="storageInfo"></p>
+    </footer>
+  </div>
+</section>
+
+<!-- ============ LECTOR ============ -->
+<section id="reader" class="screen" aria-label="Lector">
+  <header class="reader-bar">
+    <button class="icon-btn" id="toIndex" type="button" aria-label="Índice">
+      <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+    <div class="reader-title" id="readerTitle"></div>
+    <button class="icon-btn" id="fontMinus" type="button" aria-label="Letra más pequeña"><span class="aa small">A</span></button>
+    <button class="icon-btn" id="fontPlus" type="button" aria-label="Letra más grande"><span class="aa">A</span></button>
+    <button class="icon-btn" id="nightBtn" type="button" aria-label="Modo lucerna (oscuro)">
+      <svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+    </button>
+  </header>
+
+  <div class="scroller" id="scroller">
+    <article class="leaf text-leaf" id="textLeaf"></article>
+  </div>
+
+  <!-- Menú de verso -->
+  <div class="verse-menu" id="verseMenu" hidden role="dialog" aria-label="Opciones del verso">
+    <p class="vm-num" id="vmNum"></p>
+    <button type="button" id="vmPlay">▶ Escuchar desde este verso</button>
+    <button type="button" id="vmSync">✓ Este verso es el que suena ahora</button>
+    <button type="button" id="vmTts">Voz sintética (solo este verso)</button>
+    <button type="button" id="vmClose" class="vm-cancel">Cerrar</button>
+  </div>
+
+  <!-- Reproductor -->
+  <footer class="player" id="player">
+    <div class="seek-row">
+      <span class="time" id="tCur">0:00</span>
+      <input type="range" id="seek" min="0" max="1000" value="0" step="1" aria-label="Posición de la recitación">
+      <span class="time" id="tDur">0:00</span>
+    </div>
+    <div class="ctrl-row">
+      <button class="pill" id="followBtn" type="button" aria-pressed="true" title="Seguir el verso recitado">Seguir</button>
+      <button class="pill" id="rateBtn" type="button" title="Velocidad">1×</button>
+      <span class="grow"></span>
+      <button class="round" id="back15" type="button" aria-label="Retroceder 15 segundos">
+        <svg viewBox="0 0 24 24"><path d="M11 5L4 12l7 7M20 5l-7 7 7 7"/></svg>
+      </button>
+      <button class="round big" id="playBtn" type="button" aria-label="Reproducir">
+        <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        <svg class="i-pause" viewBox="0 0 24 24"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
+      </button>
+      <button class="round" id="fwd15" type="button" aria-label="Avanzar 15 segundos">
+        <svg viewBox="0 0 24 24"><path d="M13 5l7 7-7 7M4 5l7 7-7 7"/></svg>
+      </button>
+      <span class="grow"></span>
+      <button class="pill" id="dlBtn" type="button" title="Guardar audio de este libro para usar sin conexión">Guardar</button>
+      <span class="part" id="partLbl">Pars I</span>
+    </div>
+    <p class="status" id="status" aria-live="polite"></p>
+  </footer>
+</section>
+
+<audio id="audio" preload="metadata"></audio>
+<script src="app.js"></script>
+</body>
+</html>

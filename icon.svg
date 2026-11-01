@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="g" cx=".38" cy=".3"><stop offset="0" stop-color="#fff3b0"/><stop offset=".55" stop-color="#d4a53a"/><stop offset="1" stop-color="#7a520f"/></radialGradient>
+    <linearGradient id="v" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f4e8cc"/><stop offset="1" stop-color="#e2cc9c"/></linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="#2a1a10"/>
+  <rect x="64" y="64" width="384" height="384" rx="10" fill="#1f4e8c" stroke="url(#g)" stroke-width="22"/>
+  <rect x="98" y="98" width="316" height="316" fill="none" stroke="#a3261b" stroke-width="8"/>
+  <text x="256" y="350" text-anchor="middle" font-family="Uncial Antiqua, Georgia, serif" font-size="270" fill="url(#g)" stroke="#5e3f0c" stroke-width="4">A</text>
+</svg>
